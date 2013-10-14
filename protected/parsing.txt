@@ -1,0 +1,17 @@
+14/10/2013 07:26:53 El canal #1 no existe. Creando nuevo sensor en el Logger ID 12
+14/10/2013 07:26:53 ERROR: No se puede insertar el sensor 1 en la fila 1
+14/10/2013 07:30:57 El canal #1 no existe. Creando nuevo sensor en el Logger ID 1
+14/10/2013 07:30:57 El canal #2 no existe. Creando nuevo sensor en el Logger ID 1
+14/10/2013 07:30:57 El canal #3 no existe. Creando nuevo sensor en el Logger ID 1
+14/10/2013 07:30:57 El canal #4 no existe. Creando nuevo sensor en el Logger ID 1
+14/10/2013 07:30:57 El canal #5 no existe. Creando nuevo sensor en el Logger ID 1
+14/10/2013 07:30:57 El canal #6 no existe. Creando nuevo sensor en el Logger ID 1
+14/10/2013 07:30:57 El canal #7 no existe. Creando nuevo sensor en el Logger ID 1
+14/10/2013 07:30:57 El canal #8 no existe. Creando nuevo sensor en el Logger ID 1
+14/10/2013 07:30:57 El canal #9 no existe. Creando nuevo sensor en el Logger ID 1
+14/10/2013 07:30:57 El canal #10 no existe. Creando nuevo sensor en el Logger ID 1
+14/10/2013 07:30:57 El canal #11 no existe. Creando nuevo sensor en el Logger ID 1
+14/10/2013 07:30:57 El canal #12 no existe. Creando nuevo sensor en el Logger ID 1
+14/10/2013 07:30:57 El canal #13 no existe. Creando nuevo sensor en el Logger ID 1
+14/10/2013 07:30:57 El canal #14 no existe. Creando nuevo sensor en el Logger ID 1
+14/10/2013 07:30:57 El canal #15 no existe. Creando nuevo sensor en el Logger ID 1

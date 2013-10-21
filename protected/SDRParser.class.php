@@ -28,7 +28,7 @@ class SDRParser {
 
     if ( empty( self::$matrixFirstText ) )
     {
-      LogManager::logThis( 'El texto con el que inicia la tabla de canales no es válido' );
+      LogManager::logThis( 'ERROR: El texto con el que inicia la tabla de canales no es válido' );
       die();
     }
 
@@ -50,7 +50,7 @@ class SDRParser {
     }
     else
     {
-      LogManager::logThis( 'No se puede identificar la estación/logger.' );
+      LogManager::logThis( 'ERROR: No se puede identificar la estación/logger.' );
       return false;
     }
     
@@ -59,7 +59,7 @@ class SDRParser {
 
     if ( ! file_exists( self::$filePath ) || ! is_readable( self::$filePath ) )
     {
-      LogManager::logThis( 'El archivo ' . self::$filePath . ' no existe o no hay permisos de lectura.' );
+      LogManager::logThis( 'ERROR: El archivo ' . self::$filePath . ' no existe o no hay permisos de lectura.' );
       return false;  
     }
 
@@ -72,28 +72,36 @@ class SDRParser {
       // obtiene una línea
       while ( ( $row = fgetcsv( $handle, 1000, self::$delimiter ) ) !== FALSE )
       {
+        // si aun no se ha llegado a la matriz
         if ( self::$matrixRowNumber === -1 )
         {
+          // esta linea es el inicio de la matriz?
           if ( self::isHereChannelMatrix( $row ) )
-          {    
+          {
+            // marcar como encontrada
             self::$matrixRowNumber = self::$currentLineNumber;
+
+            // analizar la cabecera (sensores)
             self::parseHeader( $row );
           }
         }
         else
         {
+          // si estamos en la matriz
           if ( self::$currentLineNumber > self::$matrixRowNumber )
           {
+            // analizar lineas
             self::parseMatrixRow( $row );
           }
         }
 
         self::$currentLineNumber++;
       }
+      
       fclose($handle);
     }
 
-    return $data;
+    return true;
   }
 
   private static function isHereChannelMatrix( $row ) {
@@ -110,7 +118,7 @@ class SDRParser {
 
       if ( ! (int) $channelNumber )
       {
-        LogManager::logThis( 'El número del canal para la cadena ' . $row[$i] . ' no es válido.' );
+        LogManager::logThis( 'ERROR: El número del canal para la cadena ' . $row[$i] . ' no es válido.' );
         die();
       }
 
@@ -118,7 +126,7 @@ class SDRParser {
 
       if ( ! in_array( $recordType, self::$recordValues ) )
       {
-        LogManager::logThis( 'El tipo de registro para la cadena ' . $row[$i] . ' no es válido.' );
+        LogManager::logThis( 'ERROR: El tipo de registro para la cadena ' . $row[$i] . ' no es válido.' );
         die();
       }
 
@@ -156,19 +164,33 @@ class SDRParser {
    * Analiza los datos de una fila de la tabla
    */
   private static function parseMatrixRow( $columns ) {
-    $date = self::$header[0];
+    $insertsCount = 0;
+
+    $columns[0] = str_replace( 'a.m.', 'am', $columns[0]);
+    $columns[0] = str_replace( 'p.m.', 'pm', $columns[0]);
 
     for ( $i = 1; $i < count( $columns ); $i = $i + 4 )
     {
-      $record = new Record();
-      $record->sensor = self::$header[$i]['sensor'];
-      $record->dateCreated = $columns[0];
-      $record->avg = $columns[$i];
-      $record->sd = $columns[$i+1];
-      $record->min = $columns[$i+2];
-      $record->max = $columns[$i+3];
+      if ( ! empty( self::$header[$i]['sensor'] ) )
+      {
+        $record = new Record();
+        $record->sensor = self::$header[$i]['sensor'];
+        $record->dateCreated = DateTime::createFromFormat( 'd/m/Y H:i:s', $columns[0] )->format( 'Y-m-d H:i:s' );
+        $record->avg = $columns[$i];
+        $record->sd = $columns[$i+1];
+        $record->min = $columns[$i+2];
+        $record->max = $columns[$i+3];
 
-      print_r($record);
+        if ( ! self::insertRecord( $record ) )
+        {
+          LogManager::logThis( "ERROR: No se puede insertar el registro con fecha $dateCreated" );
+          die();
+        }
+        else
+        {
+          $insertsCount++;
+        }
+      }
     }
   }
 

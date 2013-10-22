@@ -39,14 +39,15 @@ class SDRParser {
    * Inicia todo el proceso.
    * TODO: Identificar estación
    */
-  public static function startParser( $logger, $filename = '' )
+  public static function startParser( $idLogger, $filename = '' )
   {
     self::initialize();
 
-    if ( (int) $logger->id )
+    if ( (int) $idLogger )
     {
+      // FALTA verificar en BD
       self::$logger = new Logger();
-      self::$logger->id = $logger->id;
+      self::$logger->id = $idLogger;
     }
     else
     {

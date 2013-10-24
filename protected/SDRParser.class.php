@@ -14,7 +14,7 @@ class SDRParser {
   private static $currentLineNumber = 0;
 
   // Línea donde comienza la tabla de datos de los canales
-  private static $matrixRowNumber = -1;
+  private static $matrixRowNumber;
 
   private static $recordValues = array( 'avg', 'sd', 'min', 'max' );
   private static $header = null;
@@ -23,8 +23,7 @@ class SDRParser {
 
   private static function initialize()
   {
-    if ( self::$initialized )
-      return;
+      
 
     if ( empty( self::$matrixFirstText ) )
     {
@@ -33,6 +32,8 @@ class SDRParser {
     }
 
     self::$filesDir = NRG_PATH . 'ScaledData\\';
+
+    self::$matrixRowNumber = -1;
 
     self::$initialized = true;
   }
@@ -50,7 +51,7 @@ class SDRParser {
     {
       if( self::loggerExistsById( $idLogger ) )
       {
-        LogManager::logThis( "Identificado logger/estación ID $idLogger" );
+        LogManager::logThis( "Identificado el logger ID $idLogger" );
 
         self::$logger = new Logger();
         self::$logger->id = $idLogger;
@@ -66,8 +67,6 @@ class SDRParser {
       return false;
     }
 
-    echo 'con el logger ' . self::$logger->id . "\n";
-    
     // verificar si el archivo existe
     self::$filePath = self::$filesDir . $filename;
 
@@ -127,7 +126,7 @@ class SDRParser {
 
   private static function parseHeader( $row ) {
     LogManager::logThis( 'Analizando la cabecera de la matriz' );
-    
+
     self::$header = array( 'time' );
 
     // traverse columns

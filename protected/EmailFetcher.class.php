@@ -27,7 +27,7 @@ class EmailFetcher {
     date_default_timezone_set( 'America/Lima' );
 
     // self::$theDate = new DateTime( '-6 hour');
-    self::$theDate = new DateTime( '8am -6 hour');
+    self::$theDate = new DateTime( '8am -30 hour');
 
     self::$initialized = true;
   }

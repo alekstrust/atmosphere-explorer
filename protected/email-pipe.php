@@ -15,22 +15,31 @@ require_once 'domain/Logger.class.php';
 require_once 'domain/Sensor.class.php';
 require_once 'domain/Record.class.php';
 
-$logger = new Logger();
-
-$logger->id = 1;
-
-//SDRParser::startParser( $logger, '453120130910116.txt', "\t" );
-
 // fetch RWD files from  Gmail
-$rwdfiles = EmailFetcher::start();
+//$rwdfiles = EmailFetcher::start();
 
-echo "finalizado\n";
+$rwdfiles = array(
+  '365320131022228.RWD',
+  '453020131022099.RWD',
+  '453120131022158.RWD',
+  '453420131022055.RWD',
+  '453520131022036.RWD',
+  '453620131021431.RWD',
+  '453620131022432.RWD'
+);
+
+print_r($rwdfiles);
 
 foreach( $rwdfiles as $file )
 {
-  $filePath = FILES_PATH . $file;
+  $idLogger = substr( $file, 0, 4);
 
-  RwdConverter::convert( $filePath );
+  $fileName = FILES_PATH . $file;
+
+  if( RwdConverter::convert( $fileName ) )
+  {
+    SDRParser::start( $idLogger, str_ireplace( '.rwd', '.txt', $file ) );
+  }
 }
 
 ?>

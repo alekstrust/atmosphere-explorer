@@ -2,43 +2,55 @@
 
 class RwdConverter {
   
-  private static $filename = null;
+  private static $fileName = null;
+  private static $sdrPath = NRG_PATH;
 
-  public static function convert( $filename )
+  public static function convert( $fileName )
   {
-    if( ! empty( $filename ) )
+    if( empty( $fileName ) )
     {
       return false;
     }
 
-    self::$filename = $filename;
+    self::$fileName = $fileName;
 
-    if( is_readable( self::$filename ) )
+    if( is_readable( self::$fileName ) )
     {
-      $command = 'C:\\NRG\\SymDR\\SDR.exe /s ' . self::$filename;
+      LogManager::logThis( 'Procesando ' . self::$fileName );
+      $command = self::$sdrPath . 'SymDR\SDR.exe /s ' . self::$fileName;
       exec( $command, $output );
 
       return self::checkCommandResult();
     }
     else
     {
-      LogManager::logThis( "El archio " . self::$filename . " no existe o es inaccesible" );
+      LogManager::logThis( "El archivo " . self::$fileName . " no existe o es inaccesible" );
       return false;
     }
   }
 
-  private static function checkResult() {
-    // aqui debe ser NRG
-    $logFileName = str_replace( '.rwd', '.txt', strtolower( self::$filename ) );
+  private static function checkCommandResult() {
+    $logFileName = self::getLogFileName();
 
     if( is_readable( $logFileName ) )
     {
-      LogManager::logThis( 'Un error ocurrió al intentar transformar el archivo. El log dice: '
+      LogManager::logThis( 'ERROR: Fallo al intentar transformar el archivo. El log dice: '
         . file_get_contents( $logFileName ) );
 
       return false;
     }
 
     return true;
+  }
+
+  private static function getLogFileName()
+  {
+    $pathParts = explode( '\\', self::$fileName );
+
+    $newFileName = $pathParts[ count( $pathParts ) - 1 ];
+    $logFileName = str_replace( '.rwd', '.log', strtolower( $newFileName ) );
+    $logFileName = self::$sdrPath . 'ScaledData\\' . $logFileName;
+
+    return $logFileName;
   }
 }

@@ -4,9 +4,9 @@ class SDRParser {
 
   private static $logger = null;
 
-  private static $filesDir = 'C:\xampp\htdocs\wind-pexplorer\files\\';
+  private static $filesDir = '';
   private static $filePath = '';
-  private static $delimiter = "\t";
+  private static $delimiter;
 
   // Texto que indica el inicio de la tabla de canales
   private static $matrixFirstText = 'Date & Time Stamp';
@@ -32,28 +32,41 @@ class SDRParser {
       die();
     }
 
+    self::$filesDir = NRG_PATH . 'ScaledData\\';
+
     self::$initialized = true;
   }
 
   /**
    * Inicia todo el proceso.
-   * TODO: Identificar estación
    */
-  public static function startParser( $idLogger, $filename = '' )
+  public static function start( $idLogger, $filename = '', $delimiter = "\t" )
   {
     self::initialize();
 
-    if ( (int) $idLogger )
+    self::$delimiter = $delimiter;
+
+    if( (int) $idLogger )
     {
-      // FALTA verificar en BD
-      self::$logger = new Logger();
-      self::$logger->id = $idLogger;
+      if( self::loggerExistsById( $idLogger ) )
+      {
+        LogManager::logThis( "Identificado logger/estación ID $idLogger" );
+
+        self::$logger = new Logger();
+        self::$logger->id = $idLogger;
+      }
+      else
+      {
+        return false;
+      }
     }
     else
     {
-      LogManager::logThis( 'ERROR: No se puede identificar la estación/logger.' );
+      LogManager::logThis( 'ERROR: El identificador del logger es inválido' );
       return false;
     }
+
+    echo 'con el logger ' . self::$logger->id . "\n";
     
     // verificar si el archivo existe
     self::$filePath = self::$filesDir . $filename;
@@ -61,12 +74,14 @@ class SDRParser {
     if ( ! file_exists( self::$filePath ) || ! is_readable( self::$filePath ) )
     {
       LogManager::logThis( 'ERROR: El archivo ' . self::$filePath . ' no existe o no hay permisos de lectura.' );
-      return false;  
+      return false;
     }
 
     // abre el archivo
     if ( ( $handle = fopen( self::$filePath, 'r' ) ) !== FALSE )
     {
+      LogManager::logThis( 'Analizando el archivo ' . self::$filePath );
+
       // conteo de líneas
       self::$currentLineNumber = 1;
 
@@ -100,9 +115,10 @@ class SDRParser {
       }
       
       fclose($handle);
-    }
 
-    return true;
+      LogManager::logThis( self::$filePath . ' insertado correctamente' );
+      return true;
+    }
   }
 
   private static function isHereChannelMatrix( $row ) {
@@ -110,6 +126,8 @@ class SDRParser {
   }
 
   private static function parseHeader( $row ) {
+    LogManager::logThis( 'Analizando la cabecera de la matriz' );
+    
     self::$header = array( 'time' );
 
     // traverse columns
@@ -206,6 +224,25 @@ class SDRParser {
       : null;
   }
 
+  private static function loggerExistsById( $idLogger ) {
+    try {
+      $query = "SELECT 1 FROM logger WHERE idLogger = :idLogger LIMIT 1";
+
+      $sth = DB::prepare($query);
+
+      $sth -> execute(array(
+        ':idLogger'      => $idLogger
+      ));
+
+      if( $sth->fetchColumn() == 1 ) return true;
+      else return false;
+    }
+    catch(PDOException $e) {
+      file_put_contents(LOGS_PATH . 'PDOErrors.txt', date('d/m/Y') . ' ' . $e->getMessage() . "\n", FILE_APPEND);
+      return false;
+    }
+  }
+
   /**
    * Obtiene un sensor según su número de canal
    */
@@ -240,7 +277,6 @@ class SDRParser {
   }
 
   private static function insertSensor( $sensor ) {
-    print_r($sensor);
     try
     {
       $query = "INSERT INTO sensor (idLogger, channelNumber)

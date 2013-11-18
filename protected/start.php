@@ -1,4 +1,5 @@
 #!/usr/bin/php -q
+<pre>
 <?php
 
 set_time_limit(0);

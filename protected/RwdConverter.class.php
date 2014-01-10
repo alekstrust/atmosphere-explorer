@@ -34,7 +34,7 @@ class RwdConverter {
 
     if( is_readable( $logFileName ) )
     {
-      LogManager::logThis( 'ERROR: Fallo al intentar transformar el archivo. El log dice: '
+      LogManager::logThis( 'ERROR: Fallo al intentar transformar el archivo. El log SDR dice: '
         . file_get_contents( $logFileName ) );
 
       return false;

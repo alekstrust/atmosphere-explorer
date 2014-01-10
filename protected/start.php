@@ -15,32 +15,37 @@ require_once __DIR__ . '/domain/Logger.class.php';
 require_once __DIR__ . '/domain/Sensor.class.php';
 require_once __DIR__ . '/domain/Record.class.php';
 
-// fetch RWD files from  Gmail
+// obtener archivos RWD desde Gmail
 $rwdfiles = EmailFetcher::start();
 
-// $rwdfiles = array(
-//   '365320131022228.RWD',
-//   '453020131022099.RWD',
-//   '453120131022158.RWD',
-//   '453420131022055.RWD',
-//   '453520131022036.RWD',
-//   '453620131021431.RWD',
-//   '453620131022432.RWD'
-// );
-
+LogManager::logThis( 'Archivos a analizar: ' );
 print_r($rwdfiles);
 
 foreach( $rwdfiles as $file )
 {
   $idLogger = substr( $file, 0, 4);
 
-  $fileName = FILES_PATH . $file;
+  $filePath = realpath( FILES_PATH . $file );
 
-  if( RwdConverter::convert( $fileName ) )
+  // convert RWD file
+  if( RwdConverter::convert( $filePath ) )
   {
-    SDRParser::start( $idLogger, str_ireplace( '.rwd', '.txt', $file ) );
+    $parserResult = SDRParser::start( $idLogger, str_ireplace( '.rwd', '.txt', $file ) );
+  }
+
+  // delete downloaded RWD file
+  if( is_readable( $filePath ) )
+  {
+    unlink( $filePath );
   }
 }
 
+/*
+ * TODO: Finalizado el proceso, es mejor vaciar la carpeta ScaledData del NRG
+ */
+
 ?>
 </pre>
+
+
+

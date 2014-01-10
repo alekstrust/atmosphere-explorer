@@ -12,7 +12,7 @@ class EmailFetcher {
   private static $filesCreated = array();
 
   // solo se analizarán archivos con mas bytes que $minFileSize
-  private static $minFileSize = 6000;
+  private static $minFileSize = MIN_ATTACHMENT_SIZE;
 
   private static $imapStream = null;
 

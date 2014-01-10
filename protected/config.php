@@ -10,3 +10,5 @@ defined( 'LOGS_PATH' ) || define( 'LOGS_PATH', '' );
 
 define( 'FILES_PATH', 'C:\xampp\htdocs\wind-pexplorer\files\\' );
 define( 'NRG_PATH', 'C:\NRG\\' );
+
+define( 'MIN_ATTACHMENT_SIZE', 6000 );

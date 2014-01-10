@@ -26,8 +26,7 @@ class EmailFetcher {
     // asignar la zona para Perú
     date_default_timezone_set( 'America/Lima' );
 
-    // self::$theDate = new DateTime( '-6 hour');
-    self::$theDate = new DateTime( '8am -30 hour');
+    self::$theDate = new DateTime( START_TIME );
 
     self::$initialized = true;
   }
@@ -36,7 +35,7 @@ class EmailFetcher {
   {
     self::initialize();
 
-    LogManager::logThis( 'Obteniendo todos los mensajes desde hace 6 horas: ' . self::$theDate->format(DateTime::RFC1123) );
+    LogManager::logThis( 'Obteniendo todos los mensajes (' . START_TIME . '): ' . self::$theDate->format(DateTime::RFC1123) );
 
     // conectarse a la cuenta
     self::$imapStream = imap_open( self::$hostname, self::$username, self::$password );
@@ -77,6 +76,7 @@ class EmailFetcher {
       return false;
     }
 
+    // buscará los mensajes partiendo del día indicado, sin importar la hora
     $searchCriterion = 'SINCE "' . self::$theDate->format( 'd F Y') . '"';
 
     $msgNumbers = imap_search( self::$imapStream, $searchCriterion );
@@ -93,10 +93,14 @@ class EmailFetcher {
       {
         $headers = imap_headerinfo( self::$imapStream, $msgNumber);
 
+        // analizar solo los que coincidan con fecha y hora correcta
         if( new DateTime( $headers->date ) >= self::$theDate && new DateTime( $headers->date ) <= new DateTime() )
         {
           LogManager::logThis( 'Mensaje recibido ' . $headers->date );
+
+          // fusionar lista de nombres de archivo
           self::$filesCreated = array_merge( self::$filesCreated, self::fetchEmailAttachments( self::$imapStream, $msgNumber ) );
+          
           $parsedMessages++;
         }
       }

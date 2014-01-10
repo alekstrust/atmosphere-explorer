@@ -12,3 +12,7 @@ define( 'FILES_PATH', 'C:\xampp\htdocs\wind-pexplorer\files\\' );
 define( 'NRG_PATH', 'C:\NRG\\' );
 
 define( 'MIN_ATTACHMENT_SIZE', 6000 );
+
+// tiempo pasado a buscar desde el momento
+// de iniciado el script
+define( 'START_TIME', '8am -6 hour' );

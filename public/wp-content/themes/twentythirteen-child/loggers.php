@@ -4,6 +4,7 @@
  * The template for displaying logger's graphics
  *
  * TODO: Revisar si el logger existe
+ *       Quitar decimales a algunos campos
  */
 
 get_header(); ?>

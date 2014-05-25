@@ -15,4 +15,4 @@ define( 'MIN_ATTACHMENT_SIZE', 6000 );
 
 // tiempo pasado a buscar desde el momento
 // de iniciado el script
-define( 'START_TIME', '21 Dec 2013 -6 hour' );
+define( 'START_TIME', '14 Dec 2013' );

@@ -85,12 +85,12 @@ function windpexplorer_get_last_records( $id, $count = 30 )
   if( ! (int) $id && ! (int) $count )
     return false;
 
-  return $wpdb->get_results( "SELECT dateCreated, ROUND(AVG(avg),2) as avg
+  return array_reverse( $wpdb->get_results( "SELECT dateCreated, ROUND(AVG(avg),2) as avg
     FROM record
     WHERE idSensor = $id
     GROUP BY DATE(dateCreated) 
-    ORDER BY dateCreated ASC
-    LIMIT $count" );
+    ORDER BY dateCreated DESC
+    LIMIT $count" ) );
 }
 
 ?>

@@ -46,6 +46,3 @@ foreach( $rwdfiles as $file )
 
 ?>
 </pre>
-
-
-

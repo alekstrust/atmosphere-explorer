@@ -1,8 +1,9 @@
 <?php
 
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+//define('DB_HOST', 'localhost');
+define('DB_HOST', '192.168.1.105');
+define('DB_USER', 'windpexplorer');
+define('DB_PASS', 'windpexplorer');
 define('DB_NAME', 'windpexplorer');
 
 

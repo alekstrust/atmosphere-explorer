@@ -33,10 +33,15 @@ foreach( $rwdfiles as $file )
     $parserResult = SDRParser::start( $idLogger, str_ireplace( '.rwd', '.txt', $file ) );
   }
 
+  LogManager::logThis( 'Procesamiento terminado. Borrando archivos RWD descargados.' );
+
   // delete downloaded RWD file
-  if( is_readable( $filePath ) )
+  if( defined( 'DELETE_RWD_FILES' ) && DELETE_RWD_FILES )
   {
-    unlink( $filePath );
+    if( is_readable( $filePath ) )
+    {
+      unlink( $filePath );
+    }
   }
 }
 

@@ -14,6 +14,8 @@ define( 'NRG_PATH', 'C:\NRG\\' );
 
 define( 'MIN_ATTACHMENT_SIZE', 6000 );
 
+define( 'DELETE_RWD_FILES', TRUE );
+
 // tiempo pasado a buscar desde el momento
 // de iniciado el script
 define( 'START_TIME', '1 Oct 2015' );

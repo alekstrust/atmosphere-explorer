@@ -21,4 +21,4 @@
   ];
 </script>
 
-<div id="chart-<?php echo $sensor->idSensor; ?>" class="chart" data-sensor="<?php echo $sensor->idSensor; ?>" data-name="<?php echo $sensor->description; ?> (<?php echo $sensor->units; ?>)" style="height: 300px;"></div>
+<div id="chart-<?php echo $sensor->idSensor; ?>" class="chart" data-type="<?php echo strtolower( $sensor->description ) === 'lluvia' ? 'bar' : ''; ?>" data-sensor="<?php echo $sensor->idSensor; ?>" data-name="<?php echo $sensor->description; ?> (<?php echo $sensor->units; ?>)" style="height: 300px;"></div>

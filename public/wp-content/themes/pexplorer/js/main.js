@@ -4,7 +4,7 @@ $(function() {
         $(item).dxChart({
             dataSource: window['dataSource' + $(item).data('sensor')],
             commonSeriesSettings: {
-                type: "spline",
+                type: $(item).data('type') ? $(item).data('type') : "spline",
                 argumentField: 'day'
             },
             tooltip: {

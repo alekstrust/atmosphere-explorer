@@ -12,8 +12,8 @@ define( 'EMAIL_PASS', 'theemailpass');
 define( 'SHOW_LOG', true );
 define( 'WRITE_LOG', true );
 
-define( 'LOGS_PATH', 'C:\xampp\htdocs\atmosphere-pexplorer\logs\\' );
-define( 'FILES_PATH', 'C:\xampp\htdocs\atmosphere-pexplorer\files\\' );
+define( 'LOGS_PATH', 'C:\atmosphere-pxplorer\logs\\' );
+define( 'FILES_PATH', 'C:\atmosphere-explorer\files\\' );
 define( 'NRG_PATH', 'C:\NRG\\' );
 
 define( 'MIN_ATTACHMENT_SIZE', 6000 );

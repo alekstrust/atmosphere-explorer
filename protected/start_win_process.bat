@@ -1,1 +1,0 @@
-﻿start cmd.exe /k "C:\xampp\php\php.exe C:\xampp\htdocs\protected\start.php"

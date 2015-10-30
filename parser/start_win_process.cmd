@@ -1,0 +1,1 @@
+﻿C:\xampp\php\php.exe C:\atmosphere-explorer\start.php

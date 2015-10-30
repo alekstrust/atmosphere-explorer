@@ -201,8 +201,8 @@ class SDRParser {
 
         if ( ! self::insertRecord( $record ) )
         {
-          LogManager::logThis( "ERROR: No se puede insertar el registro con fecha $dateCreated" );
-          die();
+          LogManager::logThis( "ADVERTENCIA: No se puede insertar el registro con fecha " . $record->dateCreated .
+            " en el sensor con ID " . $record->sensor->id . ". Es posible que ya exista o se trate de un error.");
         }
         else
         {

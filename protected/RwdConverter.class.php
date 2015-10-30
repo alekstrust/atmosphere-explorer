@@ -40,6 +40,8 @@ class RwdConverter {
       return false;
     }
 
+    LogManager::logThis( 'Archivo convertido correctamente.' );
+
     return true;
   }
 

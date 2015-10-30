@@ -1,7 +1,5 @@
 <?php
 
-//require_once LIBS_PATH . 'class.phpmailer.php';
-
 class LogManager {
 
  	/**
@@ -10,7 +8,8 @@ class LogManager {
  	 */
  	public static $fileName = 'parsing.txt';
 
-	public static function logThis( $log, $show = true ) {
+	public static function logThis( $log, $show = SHOW_LOG , $write = WRITE_LOG )
+	{
 		$log = date('d/m/Y H:i:s') . " " . $log . "\r\n";
 
 		if ( $show )
@@ -18,7 +17,10 @@ class LogManager {
 			echo $log;
 		}
 
-		file_put_contents( LOGS_PATH . self::$fileName, $log, FILE_APPEND );
+		if ( $write )
+		{
+			file_put_contents( LOGS_PATH . self::$fileName, $log, FILE_APPEND );
+		}		
 	}
 
 }

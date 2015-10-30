@@ -7,8 +7,10 @@ define('DB_PASS', 'windpexplorer');
 define('DB_NAME', 'windpexplorer');
 
 
-defined( 'LOGS_PATH' ) || define( 'LOGS_PATH', 'C:\xampp\htdocs\wind-pexplorer\logs\\' );
+define( 'SHOW_LOG', false );
+define( 'WRITE_LOG', false );
 
+define( 'LOGS_PATH', 'C:\xampp\htdocs\wind-pexplorer\logs\\' );
 define( 'FILES_PATH', 'C:\xampp\htdocs\wind-pexplorer\files\\' );
 define( 'NRG_PATH', 'C:\NRG\\' );
 

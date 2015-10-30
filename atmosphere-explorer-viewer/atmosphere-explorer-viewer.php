@@ -88,7 +88,7 @@ function aeviewer_get_logger_selector()
 		}
 
 		return sprintf( '
-			<form class="form-inline" action="%s" method="get">
+			<form id="atmosphere" class="form-inline" action="%s#atmosphere" method="get">
 				<div class="form-group">
 					<label for="logger">%s</label>
 					<select class="form-control" id="logger" name="logger">%s</select>

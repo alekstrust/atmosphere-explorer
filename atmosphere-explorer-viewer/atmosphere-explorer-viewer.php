@@ -1,12 +1,12 @@
 <?php
 /**
- * Plugin Name: Atmospheric Explorer Viewer
+ * Plugin Name: Atmosphere Explorer Viewer
  * Plugin URI: http://tavara.pe
  * Description: This plugin adds a page template to show the information collected by the Atmospheric Explorer software.
  * Version: 1.0.0
  * Author: Javier Távara
  * Author URI: http://tavara.pe
- * Text Domain: atmospheric-explorer-viewer
+ * Text Domain: atmosphere-explorer-viewer
  * Domain Path: /languages
  * License: GPL2
  */
@@ -24,7 +24,7 @@ require AEVIEWER_PATH . 'filters.php';
 
 function aeviewer_init()
 {
-	load_plugin_textdomain( 'atmospheric-explorer-viewer',
+	load_plugin_textdomain( 'atmosphere-explorer-viewer',
 		false,
 		dirname( plugin_basename( __FILE__ ) ) . '/languages/'
 	);
@@ -96,7 +96,7 @@ function aeviewer_get_logger_selector()
 				<div class="form-group">
 					<input class="btn btn-primary" type="submit" value="Ver" />
 				</div>
-			</form>', get_permalink(), __( 'Select a logger', 'atmospheric-explorer-viewer' ), $output );
+			</form>', get_permalink(), __( 'Select a logger', 'atmosphere-explorer-viewer' ), $output );
 	}
 }
 
@@ -148,10 +148,10 @@ function aeviewer_get_the_sensor( $sensor )
 	<h3><?php echo $sensor->description; ?> <small>(<?php echo $sensor->units; ?>)</small></h3>
 
 	<p>
-		<strong><?php printf( __( 'Channel #%s', 'atmospheric-explorer-viewer' ), $sensor->channelNumber ); ?></strong>. 
+		<strong><?php printf( __( 'Channel #%s', 'atmosphere-explorer-viewer' ), $sensor->channelNumber ); ?></strong>. 
 
 		<?php if ( ! empty( $sensor->height ) ) : ?>
-			<?php printf( __( 'Sensor height: %s m.', 'atmospheric-explorer-viewer' ), $sensor->height ); ?>
+			<?php printf( __( 'Sensor height: %s m.', 'atmosphere-explorer-viewer' ), $sensor->height ); ?>
 		<?php endif; ?>
 	</p>
 	<?php $records = aeviewer_db::get_last_records( $sensor->idSensor ); ?>

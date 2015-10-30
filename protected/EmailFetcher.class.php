@@ -2,9 +2,9 @@
 
 class EmailFetcher {
 
-  private static $hostname = '{imap.gmail.com:993/imap/ssl}';
-  private static $username = 'fisica.udep@gmail.com';
-  private static $password = 'F3s3c177';
+  private static $hostname = EMAIL_HOST;
+  private static $username = EMAIL_USER;
+  private static $password = EMAIL_PASS;
   private static $theDate;
 
   private static $filesDir = FILES_PATH;

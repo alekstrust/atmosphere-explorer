@@ -1,6 +1,6 @@
 <?php
 
-$aevdb = new wpdb( 'windpexplorer', 'wind', 'windpexplorer', 'localhost' );
+$aevdb = new wpdb( 'windpexplorer', 'wind', 'atmosphereexplorer', 'localhost' );
 
 class aeviewer_db
 {

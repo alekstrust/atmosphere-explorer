@@ -14,6 +14,18 @@ require_once __DIR__ . '/domain/Logger.class.php';
 require_once __DIR__ . '/domain/Sensor.class.php';
 require_once __DIR__ . '/domain/Record.class.php';
 
+$connected = SDRParser::testDBConnection();
+
+if ( $connected === false )
+{
+  LogManager::logThis( 'No se puede conectar a la base de datos. Revisa el log de PDO en ' . LOGS_PATH );
+  die();
+}
+else
+{
+  LogManager::logThis( 'Conectado a la base de datos. Hay ' . $connected . ' estaciones registradas.' );
+}
+
 if ( WRITE_LOG )
 {
   LogManager::logThis( 'Escribiendo logs en ' . LOGS_PATH );

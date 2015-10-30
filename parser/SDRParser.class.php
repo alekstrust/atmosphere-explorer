@@ -58,6 +58,7 @@ class SDRParser {
       }
       else
       {
+        LogManager::logThis( "ERROR: No se ha identificado el logger ID $idLogger" );
         return false;
       }
     }
@@ -315,6 +316,22 @@ class SDRParser {
     catch( PDOException $e )
     {
       file_put_contents( LOGS_PATH . 'PDOErrors.txt', date('d/m/Y') . ' ' . $e->getMessage(), FILE_APPEND );
+      return false;
+    }
+  }
+
+  public static function testDBConnection() {
+    try {
+      $query = "SELECT count(*) FROM logger";
+
+      $sth = DB::prepare($query);
+
+      $sth -> execute();
+
+      return $sth->fetchColumn();
+    }
+    catch(PDOException $e) {
+      file_put_contents(LOGS_PATH . 'PDOErrors.txt', date('d/m/Y') . ' ' . $e->getMessage() . "\n", FILE_APPEND);
       return false;
     }
   }

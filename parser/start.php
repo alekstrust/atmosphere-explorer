@@ -54,8 +54,11 @@ foreach( $rwdfiles as $file )
   }
 }
 
-/*
- * TODO: Finalizado el proceso, es mejor vaciar la carpeta ScaledData del NRG
- */
+// delete files inside NRG/ScaledData (contains the TXT converted files)
+if ( defined( 'DELETE_SCALED_FILES' ) && DELETE_SCALED_FILES )
+{
+  LogManager::logThis( 'Limpiando el directorio ' . NRG_PATH . 'ScaledData' );
+  array_map( 'unlink', glob( NRG_PATH . 'ScaledData/*' ) );
+}
 
 ?>

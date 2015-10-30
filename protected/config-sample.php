@@ -9,11 +9,11 @@ define( 'EMAIL_HOST', '{imap.gmail.com:993/imap/ssl}');
 define( 'EMAIL_USER', 'email@gmail.com');
 define( 'EMAIL_PASS', 'theemailpass');
 
-define( 'SHOW_LOG', false );
-define( 'WRITE_LOG', false );
+define( 'SHOW_LOG', true );
+define( 'WRITE_LOG', true );
 
-define( 'LOGS_PATH', 'C:\xampp\htdocs\wind-pexplorer\logs\\' );
-define( 'FILES_PATH', 'C:\xampp\htdocs\wind-pexplorer\files\\' );
+define( 'LOGS_PATH', 'C:\xampp\htdocs\atmosphere-pexplorer\logs\\' );
+define( 'FILES_PATH', 'C:\xampp\htdocs\atmosphere-pexplorer\files\\' );
 define( 'NRG_PATH', 'C:\NRG\\' );
 
 define( 'MIN_ATTACHMENT_SIZE', 6000 );

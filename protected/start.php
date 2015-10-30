@@ -1,5 +1,4 @@
 #!/usr/bin/php -q
-<pre>
 <?php
 
 set_time_limit(0);
@@ -15,11 +14,21 @@ require_once __DIR__ . '/domain/Logger.class.php';
 require_once __DIR__ . '/domain/Sensor.class.php';
 require_once __DIR__ . '/domain/Record.class.php';
 
+if ( WRITE_LOG )
+{
+  LogManager::logThis( 'Escribiendo logs en ' . LOGS_PATH );
+}
+else
+{
+  LogManager::logThis( 'Se ha desactivado la escritura del log. Continuando...' );
+}
+
 // obtener archivos RWD desde Gmail
 $rwdfiles = EmailFetcher::start();
 
 LogManager::logThis( 'Archivos a analizar: ' );
-print_r($rwdfiles);
+
+LogManager::logThis ( print_r( $rwdfiles, true ) );
 
 foreach( $rwdfiles as $file )
 {
@@ -33,11 +42,11 @@ foreach( $rwdfiles as $file )
     $parserResult = SDRParser::start( $idLogger, str_ireplace( '.rwd', '.txt', $file ) );
   }
 
-  LogManager::logThis( 'Procesamiento terminado. Borrando archivos RWD descargados.' );
-
   // delete downloaded RWD file
   if( defined( 'DELETE_RWD_FILES' ) && DELETE_RWD_FILES )
   {
+    LogManager::logThis( 'Procesamiento terminado. Borrando archivos RWD descargados.' );
+
     if( is_readable( $filePath ) )
     {
       unlink( $filePath );
@@ -50,4 +59,3 @@ foreach( $rwdfiles as $file )
  */
 
 ?>
-</pre>

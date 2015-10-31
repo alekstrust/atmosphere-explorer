@@ -27,16 +27,25 @@ class aeviewer_db
 
   static function get_last_records( $id, $count = 30 )
   {
-    global $aevdb;
+    $transient_id = 'records_' . $id;
 
-    if( ! (int) $id && ! (int) $count )
-      return false;
+    if ( false === ( $rows = get_transient( $transient_id ) ) )
+    {
+      global $aevdb;
 
-    return array_reverse( $aevdb->get_results( "SELECT dateCreated, ROUND(AVG(avg),2) as avg
-      FROM record
-      WHERE idSensor = $id
-      GROUP BY DATE(dateCreated) 
-      ORDER BY dateCreated DESC
-      LIMIT $count" ) );
+      if( ! (int) $id && ! (int) $count )
+        return false;
+
+      $rows = array_reverse( $aevdb->get_results( "SELECT dateCreated, ROUND(AVG(avg),2) as avg
+        FROM record
+        WHERE idSensor = $id
+        GROUP BY DATE(dateCreated) 
+        ORDER BY dateCreated DESC
+        LIMIT $count" ) );
+
+      set_transient( $transient_id, $rows, DAY_IN_SECONDS / 2 );
+    }
+
+    return $rows;
   }
 }

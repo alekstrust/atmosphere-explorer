@@ -17,6 +17,7 @@
 define( AEVIEWER_URI, plugin_dir_url( __FILE__ ) );
 define( AEVIEWER_PATH, plugin_dir_path( __FILE__ ) );
 
+require AEVIEWER_PATH . 'config.php';
 require AEVIEWER_PATH . 'db.php';
 require AEVIEWER_PATH . 'shortcodes.php';
 require AEVIEWER_PATH . 'filters.php';

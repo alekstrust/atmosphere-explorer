@@ -25,23 +25,43 @@ class aeviewer_db
     return $aevdb->get_results( "SELECT * FROM sensor WHERE description <> '' AND idLogger = $id" );
   }
 
-  static function get_last_records( $id, $count = 30 )
+  static function get_last_records( $args, $sensor )
   {
-    $transient_id = 'records_' . $id;
+    $defaults = array(
+      'idSensor'      => '',
+      'count'         => 30,
+      'sql_function'  => 'AVG', // avg, sum
+      'record_value'  => 'avg', // avg, sd, min, max
+    );
+
+    $args = wp_parse_args( $args, $defaults );
+
+    $valid_record_values = array( 'avg', 'sd', 'min', 'max' );
+
+    if (
+      ! (int) $args['idSensor'] ||
+      ! (int) $args['count'] ||
+      ! in_array( strtolower( $args['record_value'] ), $valid_record_values ) ||
+      empty( $args['sql_function'] )
+    )
+    {
+      return false;
+    }
+
+    $transient_id = 'records_' . $args['idSensor'];
 
     if ( false === ( $rows = get_transient( $transient_id ) ) )
     {
       global $aevdb;
 
-      if( ! (int) $id && ! (int) $count )
-        return false;
-
-      $rows = array_reverse( $aevdb->get_results( "SELECT dateCreated, ROUND(AVG(avg),2) as avg
+      $query = "SELECT dateCreated, ROUND({$args['sql_function']}({$args['record_value']}),2) as avg
         FROM record
-        WHERE idSensor = $id
+        WHERE idSensor = {$args['idSensor']}
         GROUP BY DATE(dateCreated) 
         ORDER BY dateCreated DESC
-        LIMIT $count" ) );
+        LIMIT {$args['count']}";
+
+      $rows = array_reverse( $aevdb->get_results( $query ) );
 
       set_transient( $transient_id, $rows, DAY_IN_SECONDS / 2 );
     }

@@ -155,7 +155,10 @@ function aeviewer_get_the_sensor( $sensor )
 			<?php printf( __( 'Sensor height: %s m.', 'atmosphere-explorer-viewer' ), $sensor->height ); ?>
 		<?php endif; ?>
 	</p>
-	<?php $records = aeviewer_db::get_last_records( $sensor->idSensor ); ?>
+
+	<?php $last_records_args = apply_filters( 'aeviewer_last_records_args', array( 'idSensor' => $sensor->idSensor ), $sensor ); ?>
+
+	<?php $records = aeviewer_db::get_last_records( $last_records_args ); ?>
 
 	<script type="text/javascript" id="ds-<?php echo $sensor->idSensor; ?>">
 		var dataSource<?php echo $sensor->idSensor; ?> = [

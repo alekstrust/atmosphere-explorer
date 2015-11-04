@@ -38,6 +38,24 @@ add_filter( 'aeviewer_get_the_sensor_record_value', 'aeviewer_radiacion_value', 
 
 
 /**
+ * This filter runs before getting the last records from a sensor
+ * When sensor description is "lluvia", calculate a summatory.
+ */
+function aeviewer_lluvia_sum( $args, $sensor )
+{
+	$description = strtolower( $sensor->description );
+
+	if ( $description === 'lluvia' )
+	{
+		$args['sql_function'] = 'SUM';
+	}
+
+	return $args;
+}
+add_filter( 'aeviewer_last_records_args', 'aeviewer_lluvia_sum', 10, 2 );
+
+
+/**
  * This filter runs before printing the channel chart type
  * When sensor description is "lluvia", set chart type to "bar".
  */

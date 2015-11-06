@@ -29,7 +29,7 @@ function aeviewer_radiacion_value( $value, $sensor )
 
 	if ( $description === 'radiacion solar acumulada' || $description === 'radiación solar acumulada' )
 	{
-		$value = $value * 0.024;
+		$value = round( $value * 0.024, 2 );
 	}
 
 	return $value;

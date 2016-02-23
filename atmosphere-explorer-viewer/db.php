@@ -25,7 +25,7 @@ class aeviewer_db
     return $aevdb->get_results( "SELECT * FROM sensor WHERE description <> '' AND idLogger = $id" );
   }
 
-  static function get_last_records( $args, $sensor )
+  static function get_last_records( $args )
   {
     $defaults = array(
       'idSensor'      => '',

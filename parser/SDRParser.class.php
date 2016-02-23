@@ -315,7 +315,7 @@ class SDRParser {
     }
     catch( PDOException $e )
     {
-      file_put_contents( LOGS_PATH . 'PDOErrors.txt', date('d/m/Y') . ' ' . $e->getMessage(), FILE_APPEND );
+      file_put_contents( LOGS_PATH . 'PDOErrors.txt', date('d/m/Y') . ' ' . $e->getMessage() . "\n", FILE_APPEND );
       return false;
     }
   }

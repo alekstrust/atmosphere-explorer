@@ -33,12 +33,7 @@
 			tooltip: {
 				enabled: true
 			},
-			series: [
-				{
-					name: $(item).data('name'),
-					valueField: 'value'
-				}
-			],
+			series: series,
 			legend: {
 				horizontalAlignment: 'center',
 				verticalAlignment: 'bottom'

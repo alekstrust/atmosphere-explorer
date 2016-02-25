@@ -56,6 +56,39 @@ add_filter( 'aeviewer_last_records_args', 'aeviewer_lluvia_sum', 10, 2 );
 
 
 /**
+ * This filter runs before requiring sensor data.
+ * Show series according to options.
+ */
+function aeviewer_show_series( $args, $sensor )
+{
+	$description = strtolower( $sensor->description );
+
+	if ( $description === 'velocidad del viento' )
+	{
+		$args['series'] = ['max'];
+	}
+
+	if ( $description === 'temperatura' )
+	{
+		$args['series'] = ['min', 'max'];
+	}
+
+	if ( $description === 'presión atmosférica' )
+	{
+		$args['series'] = ['min', 'max'];
+	}
+
+	if ( $description === 'humedad' )
+	{
+		$args['series'] = ['min', 'max'];
+	}
+
+	return $args;
+}
+add_filter( 'aeviewer_last_records_args', 'aeviewer_show_series', 10, 2 );
+
+
+/**
  * This filter runs before printing the channel chart type
  * When sensor description is "lluvia", set chart type to "bar".
  */

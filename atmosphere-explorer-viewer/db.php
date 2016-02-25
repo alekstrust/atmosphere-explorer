@@ -32,6 +32,7 @@ class aeviewer_db
       'count'         => 30,
       'sql_function'  => 'AVG', // avg, sum
       'record_value'  => 'avg', // avg, sd, min, max
+      'series'        => [] // min, max
     );
 
     $args = wp_parse_args( $args, $defaults );
@@ -54,7 +55,17 @@ class aeviewer_db
     {
       global $aevdb;
 
-      $query = "SELECT dateCreated, ROUND({$args['sql_function']}({$args['record_value']}),2) as avg
+      $series_query = '';
+
+      foreach ( $args['series'] as $serie )
+      {
+        if ( in_array( strtolower( $serie ), array( 'min', 'max' ) ) )
+        {
+          $series_query .= ', ROUND(' . strtoupper( $serie ) . '(' . $serie . '),2) as ' . $serie;
+        }
+      }
+
+      $query = "SELECT dateCreated, ROUND({$args['sql_function']}({$args['record_value']}),2) as avg {$series_query}
         FROM record
         WHERE idSensor = {$args['idSensor']}
         GROUP BY DATE(dateCreated) 

@@ -162,16 +162,31 @@ function aeviewer_get_the_sensor( $sensor )
 
 	<script type="text/javascript" id="ds-<?php echo $sensor->idSensor; ?>">
 		var dataSource<?php echo $sensor->idSensor; ?> = [
-			<?php foreach( $records as $record ): ?>
-				{
-					day:	 "<?php echo date_format( date_create( $record->dateCreated ), 'd-M' ); ?>",
-					value: <?php echo apply_filters( 'aeviewer_get_the_sensor_record_value', $record->avg, $sensor ); ?>
-				},
-			<?php endforeach; ?>
+			<?php
+
+			foreach( $records as $record ) :
+				$data = [];
+
+				$data['day'] = date_format( date_create( $record->dateCreated ), 'd-M' );
+
+				$data['value'] = (float) apply_filters( 'aeviewer_get_the_sensor_record_value', $record->avg, $sensor );
+
+				if ( is_array( $last_records_args['series'] ) && in_array( 'min', $last_records_args['series'] ) ) :
+					$data['min'] = (float) apply_filters( 'aeviewer_get_the_sensor_record_min', $record->min, $sensor );
+				endif;
+
+				if ( is_array( $last_records_args['series'] ) && in_array( 'max', $last_records_args['series'] ) ) :
+					$data['max'] = (float) apply_filters( 'aeviewer_get_the_sensor_record_max', $record->max, $sensor );
+				endif;
+
+				echo json_encode( $data ) . ', ';
+			endforeach;
+
+			?>
 		];
 	</script>
 
-	<div id="chart-<?php echo $sensor->idSensor; ?>" class="chart" data-type="<?php echo apply_filters( 'aeviewer_get_the_sensor_chart_type', '', $sensor ); ?>" data-sensor="<?php echo $sensor->idSensor; ?>" data-name="<?php echo $sensor->description; ?> (<?php echo $sensor->units; ?>)" style="height: 300px;"></div>
+	<div id="chart-<?php echo $sensor->idSensor; ?>" class="chart" data-type="<?php echo apply_filters( 'aeviewer_get_the_sensor_chart_type', '', $sensor ); ?>" data-sensor="<?php echo $sensor->idSensor; ?>" data-name="<?php echo $sensor->description; ?> (<?php echo $sensor->units; ?>)" style="height: 300px;"<?php echo is_array( $last_records_args['series'] ) && in_array( 'min', $last_records_args['series'] ) ? ' data-hasmin="true"' : ''; ?><?php echo is_array( $last_records_args['series'] ) && in_array( 'max', $last_records_args['series'] ) ? ' data-hasmax="true"' : ''; ?>></div>
 
 	<?php
 

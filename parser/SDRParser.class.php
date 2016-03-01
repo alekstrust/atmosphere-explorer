@@ -16,7 +16,7 @@ class SDRParser {
   // Línea donde comienza la tabla de datos de los canales
   private static $matrixRowNumber;
 
-  private static $recordValues = array( 'avg', 'sd', 'min', 'max' );
+  private static $recordValues = array( 'avg', 'sd', 'max', 'min' );
   private static $header = null;
 
   private static $initialized = false;
@@ -197,8 +197,8 @@ class SDRParser {
         $record->dateCreated = DateTime::createFromFormat( 'd/m/Y H:i:s', $columns[0] )->format( 'Y-m-d H:i:s' );
         $record->avg = $columns[$i];
         $record->sd = $columns[$i+1];
-        $record->min = $columns[$i+2];
-        $record->max = $columns[$i+3];
+        $record->max = $columns[$i+2];
+        $record->min = $columns[$i+3];
 
         if ( ! self::insertRecord( $record ) )
         {

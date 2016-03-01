@@ -3,14 +3,14 @@
 	$('.chart').each(function(index, item) {
 		var series = [
 			{
-				name: $(item).data('name'),
+				name: 'Promedio',
 				valueField: 'value'
 			}
 		];
 
 		if ( $(item).data('hasmin') ) {
 			series.push({
-				name: 'Min',
+				name: 'Mínimo',
 				valueField: 'min',
 				color: '#597f3f',
 			});
@@ -18,7 +18,7 @@
 
 		if ( $(item).data('hasmax') ) {
 			series.push({
-				name: 'Max',
+				name: 'Máximo',
 				valueField: 'max',
 				color: '#BA4D51',
 			});
